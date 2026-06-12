@@ -2,13 +2,37 @@
   "name": "playwright-saucedemo",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "playwright": "^1.60.0",
+    "playwright-core": "^1.60.0",
+    "undici-types": "^7.27.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0"
+  },
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:trace": "playwright test --headed --trace on",
+    "test:chromium": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "test:webkit": "playwright test --project=webkit",
+    "test:multi": "playwright test --project=chromium --project=firefox",
+    "report": "playwright show-report"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sanaSOK/IP-V2-TP06.git"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
-  "devDependencies": {
-    "@playwright/test": "^1.60.0",
-    "@types/node": "^25.9.1"
-  }
+  "bugs": {
+    "url": "https://github.com/sanaSOK/IP-V2-TP06/issues"
+  },
+  "homepage": "https://github.com/sanaSOK/IP-V2-TP06#readme",
+  "description": ""
 }

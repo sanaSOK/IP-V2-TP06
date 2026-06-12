@@ -1,10 +1,17 @@
 import { test, expect } from '@playwright/test';
 
-test('add product to cart', async ({ page }) => {
+// Helper: login and land on inventory page
+async function loginAsStandardUser(page: import('@playwright/test').Page) {
   await page.goto('https://www.saucedemo.com/');
   await page.getByPlaceholder('Username').fill('standard_user');
   await page.getByPlaceholder('Password').fill('secret_sauce');
   await page.getByRole('button', { name: /login/i }).click();
+  await expect(page).toHaveURL(/inventory\.html/);
+}
+
+// ── Step 3.1 — Add product to cart ───────────────────────────────────────────
+test('add product to cart', async ({ page }) => {
+  await loginAsStandardUser(page);
 
   await page.getByRole('button', { name: /add to cart/i }).first().click();
 
@@ -12,24 +19,20 @@ test('add product to cart', async ({ page }) => {
   await expect(cartBadge).toHaveText('1');
 });
 
+// ── Step 3.2 — View cart page ─────────────────────────────────────────────────
 test('view cart page', async ({ page }) => {
-  await page.goto('https://www.saucedemo.com/');
-  await page.getByPlaceholder('Username').fill('standard_user');
-  await page.getByPlaceholder('Password').fill('secret_sauce');
-  await page.getByRole('button', { name: /login/i }).click();
+  await loginAsStandardUser(page);
 
   await page.getByRole('button', { name: /add to cart/i }).first().click();
   await page.locator('.shopping_cart_link').click();
 
-  await expect(page).toHaveURL(/cart.html/);
+  await expect(page).toHaveURL(/cart\.html/);
   await expect(page.getByText('Your Cart')).toBeVisible();
 });
 
+// ── Step 3.3 — Remove item from cart ─────────────────────────────────────────
 test('remove item from cart', async ({ page }) => {
-  await page.goto('https://www.saucedemo.com/');
-  await page.getByPlaceholder('Username').fill('standard_user');
-  await page.getByPlaceholder('Password').fill('secret_sauce');
-  await page.getByRole('button', { name: /login/i }).click();
+  await loginAsStandardUser(page);
 
   await page.getByRole('button', { name: /add to cart/i }).first().click();
   await page.locator('.shopping_cart_link').click();
